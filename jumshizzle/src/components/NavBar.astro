@@ -1,0 +1,72 @@
+---
+import siteConfig from '../../site.config.mjs';
+
+const title = siteConfig.title;
+
+const menuItems = [
+	{ name: 'Home', link: `/` },
+	{ name: 'Films', link: `/films` },
+	{ name: 'Images', link: `/collections` },
+	{ name: 'Jumshaid', link: `/about` },
+	{ name: 'Contact', link: `/contact` },
+];
+---
+
+
+<nav
+	x-data="{ isOpen: false, scrolled: false }"
+	@scroll.window="scrolled = window.scrollY > 50"
+	class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+	:class="scrolled ? 'py-4 bg-white/95 backdrop-blur-sm shadow-sm' : 'py-6 bg-transparent'"
+>
+	<div class="container mx-auto flex justify-between items-center">
+		<a href="/" id="logo" class="text-xl md:text-2xl font-light tracking-[0.3em] uppercase">
+			Jumshaid Zee
+		</a>
+
+		<!-- Desktop Menu -->
+		<div class="hidden md:flex space-x-12">
+			{
+				menuItems.map((item) => (
+					<a
+						href={item.link}
+						class="nav-link text-sm uppercase tracking-wider font-light hover:opacity-60 transition-opacity duration-300"
+					>
+						{item.name}
+					</a>
+				))
+			}
+		</div>
+
+		<!-- Mobile Menu Button -->
+		<button @click="isOpen = !isOpen" class="md:hidden text-gray-800 focus:outline-none">
+			<svg x-show="!isOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M4 6h16M4 12h16M4 18h16"></path>
+			</svg>
+			<svg x-show="isOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M6 18L18 6M6 6l12 12"></path>
+			</svg>
+		</button>
+	</div>
+
+	<!-- Mobile Menu -->
+	<div x-show="isOpen" class="md:hidden absolute top-full left-0 w-full bg-white shadow-md">
+		<div class="flex flex-col py-4 px-6 space-y-4">
+			{
+				menuItems.map((item) => (
+					<a href={item.link} class="text-lg" @click="isOpen = false">
+						{item.name}
+					</a>
+				))
+			}
+		</div>
+	</div>
+</nav>
